@@ -1,26 +1,46 @@
-import React from 'react';
+import React, { Component } from "react";
 import logo from './logo.svg';
 import './App.css';
+import Cal from './components/Cal'
+import Login from './Login/Login'
 
-function App() {
+ 
+
+class App extends Component {
+    
+  constructor() {
+      super();
+      this.state = {
+        signedIn: false,
+        user: null,
+        name: "",
+        email: "",
+        password: "",
+        events: [],
+      };
+    }
+  
+    // componentDidMount() {
+      
+    // }
+
+
+//used for input capture on input forms
+    handleChange = (e) => {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    };
+  
+
+ render(){
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+      {this.state.signedIn ? <Cal />  : <Login  handleChange={this.handleChange}/> }
     </div>
   );
+ }
 }
 
 export default App;
