@@ -5,10 +5,14 @@ class Login extends Component {
   constructor(){
     super()
     this.state = {
-      currentView: "signUp"
+      currentView: "signUp",
+      username:"",
+      email:"",
+      password:""
     }
   }
 
+//swap views
   changeView = (view) => {
     this.setState({
       currentView: view
@@ -27,30 +31,47 @@ class Login extends Component {
               <ul>
                 <li>
                   <label for="username">Username:</label>
-                  <input 
-
-          
-                  className="input"
-                  // onChange={(e) => props.handleChange(e)}
-                  name="name"
-                  type="text"
-
                   
+                  <input 
+                  className="input"
+                  name="username"
+                  type="text"
+                  onChange={(e) => this.props.handleChange(e)}
                   id="username" 
                   required/>
+
                 </li>
                 <li>
                   <label for="email">Email:</label>
-                  <input type="email" id="email" required/>
+                  
+                  <input 
+                  type="email" 
+                  id="email"
+                  name="email"
+                  required
+                  onChange={(e) => this.props.handleChange(e)}
+                  />
+
                 </li>
                 <li>
                   <label for="password">Password:</label>
-                  <input type="password" id="password" required/>
+                  
+                  <input 
+                  type="password" 
+                  id="password" 
+                  name="password"
+                  required
+                  onChange={(e) => this.props.handleChange(e)}
+                  />
+
                 </li>
               </ul>
             </fieldset>
-            <button>Submit</button>
-            <button type="button" onClick={ () => this.changeView("logIn")}>Have an Account?</button>
+            <button onClick={this.props.handleLogin} >Submit</button>
+            <button 
+            type="button"  
+            onClick={ () => this.changeView("logIn")}>
+            Have an Account?</button>
           </form>
         )
         break
@@ -64,11 +85,27 @@ class Login extends Component {
               <ul>
                 <li>
                   <label for="username">Username:</label>
-                  <input type="text" id="username" required/>
+                  
+                  <input 
+                  type="text" 
+                  id="username" 
+                  name="username"
+                  required
+                  onChange={(e) => this.props.handleChange(e)}
+                  />
+
                 </li>
                 <li>
                   <label for="password">Password:</label>
-                  <input type="password" id="password" required/>
+
+                  <input 
+                  type="password" 
+                  id="password" 
+                  name="password"
+                  required
+                  onChange={(e) => this.props.handleChange(e)}
+                  />
+
                 </li>
                 <li>
                   <i/>
@@ -76,8 +113,13 @@ class Login extends Component {
                 </li>
               </ul>
             </fieldset>
-            <button>Login</button>
-            <button type="button" onClick={ () => this.changeView("signUp")}>Create an Account</button>
+            <button
+            onClick={event => this.props.handleLogin(event)}
+            >Login</button>
+            <button 
+            type="button" 
+            onClick={ () => this.changeView("signUp")}
+            >Create an Account</button>
           </form>
         )
         default:

@@ -8,6 +8,7 @@ import classNames from 'clsx';
 import {
   Scheduler,
   MonthView,
+  WeekView,
   Appointments,
   Toolbar,
   DateNavigator,
@@ -20,9 +21,10 @@ import {
 import WbSunny from '@material-ui/icons/WbSunny';
 import FilterDrama from '@material-ui/icons/FilterDrama';
 import Opacity from '@material-ui/icons/Opacity';
-import ColorLens from '@material-ui/icons/ColorLens';
+import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { withStyles } from '@material-ui/core/styles';
 import { owners } from './tasks';
+ 
 
 const appointments = [
   {
@@ -287,8 +289,9 @@ const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
 const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ...restProps }) => (
   <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
     <div className={classes.flexContainer}>
-      <ColorLens fontSize="large" htmlColor="#FF7043" />
-      <Typography variant="h5" style={{ marginLeft: '10px' }}>Art School</Typography>
+      {/* logo below */}
+      <DataUsageIcon fontSize="large" htmlColor="#B240E0" />
+      <Typography variant="h5" style={{ marginLeft: '10px' }}>WEEKLY</Typography>
     </div>
   </Toolbar.FlexibleSpace>
 ));
@@ -300,6 +303,8 @@ export default class Demo extends React.PureComponent {
 
     this.state = {
       data: appointments,
+      startDayHour: 5.5,
+      endDayHour: 20.5,
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -325,12 +330,13 @@ export default class Demo extends React.PureComponent {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, startDayHour, endDayHour } = this.state;
 
     return (
       <Paper>
         <Scheduler
           data={data}
+         
         >
           <EditingState
             onCommitChanges={this.commitChanges}
@@ -339,9 +345,14 @@ export default class Demo extends React.PureComponent {
             defaultCurrentDate="2018-07-17"
           />
 
-          <MonthView
+          {/* <MonthView
             timeTableCellComponent={TimeTableCell}
             dayScaleCellComponent={DayScaleCell}
+          /> */}
+
+          <WeekView
+            startDayHour={startDayHour}
+            endDayHour={endDayHour}
           />
 
           <Appointments
