@@ -13,7 +13,7 @@ class App extends Component {
       this.state = {
         signedIn: false,
         user: null,
-        name: "",
+        username: "bryn",
         email: "",
         password: "",
         events: [],
@@ -43,7 +43,7 @@ class App extends Component {
             signedIn: true,
             user: {
               id: data.id,
-              username: data.username.charAt(0).toUpperCase() + data.name.slice(1),
+              username: data.username.charAt(0).toUpperCase() + data.username.slice(1),
               email: data.email
             }
           });
@@ -94,7 +94,7 @@ class App extends Component {
       handleChange={this.handleChange}
       handleSignup={event => this.handleSignup(event)}
       handleLogin={event => this.handleLogin(event)}
-      /> : <Cal />  
+      /> : <Cal username={this.state.username} />  
       }
     </div>
   );
