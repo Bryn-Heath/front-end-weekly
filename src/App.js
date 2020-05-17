@@ -1,53 +1,64 @@
 import React, { Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 import Cal from './components/Cal'
 import Login from './Login/Login'
 
  
-
 class App extends Component {
     
   constructor() {
       super();
       this.state = {
-        signedIn: false,
+        signedIn: true,
         user: null,
-        username: "bryn",
+        username: "",
         email: "",
         password: "",
         events: [],
-        users:""
+        users:"",
+        message:""
       };
-    }
-  
-    // componentDidMount() {
-      
-    // }
+  };
 
+    
+    componentDidMount() {
+      this.fetchCategories();
+    }
+
+ 
+
+    fetchCategories = () => {
+      fetch("http://localhost:3000/categories")
+        .then(res => res.json())
+        .then(data => this.setState({ categories: data.map(ea => ea.name)}))
+    };
 
     handleSignup = (event) => {
       event.preventDefault()
       fetch("http://localhost:3000/owners", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json", 
+                  "Accept": "application/json" },
         body: JSON.stringify({
           username: this.state.username.trim(),
           email: this.state.email.trim(),
           password: this.state.password.trim(),
         }),
       })
-        .then(res => res.json())
-        .then(data => {
-          this.setState({
-            signedIn: true,
-            user: {
-              id: data.id,
-              username: data.username.charAt(0).toUpperCase() + data.username.slice(1),
-              email: data.email
-            }
-          });
-        });
+        .then(res => res.json())  
+        .then(data => this.setState({message: data}))
+   
+          // {this.setState
+          //   ({
+          //   signedIn: data > 1 ? true : false,
+          //     user: {
+          //       id: data.id,
+          //       username: data.username.charAt(0).toUpperCase() + data.username.slice(1),
+          //       email: data.email
+          //     } 
+          //   })
+          // }
+         
     };
 
 
@@ -73,12 +84,12 @@ class App extends Component {
           }
         });
     };
-
+ 
 
 //used for input capture on input forms
-    handleChange = (e) => {
+    handleChange = (event) => {
       this.setState({
-        [e.target.name]: e.target.value,
+        [event.target.name]: event.target.value,
       });
     };
   
@@ -89,13 +100,24 @@ class App extends Component {
     
       {this.state.signedIn ? 
      
+        <Cal 
+          username={this.state.username}
+          categories={this.state.categories}
+        />  
       
-      <Login  
-      handleChange={this.handleChange}
-      handleSignup={event => this.handleSignup(event)}
-      handleLogin={event => this.handleLogin(event)}
-      /> : <Cal username={this.state.username} />  
+        :
+
+        <Login  
+          handleChange={this.handleChange}
+          handleSignup={event => this.handleSignup(event)}
+          handleLogin={event => this.handleLogin(event)}
+          message={this.state.message}
+        /> 
+    
       }
+
+
+
     </div>
   );
  }

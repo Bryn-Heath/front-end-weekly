@@ -12,6 +12,10 @@ class Login extends Component {
     }
   }
 
+   getMessages(messages){ 
+    for (const [key, value] of Object.entries(messages)) {
+    return (`${key} ${value}`) }
+  }
 //swap views
   changeView = (view) => {
     this.setState({
@@ -19,7 +23,9 @@ class Login extends Component {
     })
   }
 
-  currentView = () => {
+  currentView = ( ) => {
+            const messages = this.props.message.data
+
     switch(this.state.currentView) {
       
       case "signUp":
@@ -67,11 +73,13 @@ class Login extends Component {
                 </li>
               </ul>
             </fieldset>
-            <button onClick={this.props.handleLogin} >Submit</button>
+            <button onClick={this.props.handleSignup} >Submit</button>
             <button 
             type="button"  
             onClick={ () => this.changeView("logIn")}>
-            Have an Account?</button>
+            Have an Account? Login here</button>
+
+            {this.props.message ? this.getMessages(messages) : ""}
           </form>
         )
         break
@@ -79,7 +87,7 @@ class Login extends Component {
         case "logIn":
         return (
           <form className="form">
-            <h2>Welcome Back!</h2>
+            <h2>WEEKLY</h2>
             <fieldset>
               <legend>Sign In</legend>
               <ul>
