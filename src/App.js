@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import './App.css';
 import Cal from './components/Cal'
 import Login from './Login/Login'
+import DataPage from './components/DataPage'
+import Nav from './components/Nav'
 
  
 class App extends Component {
@@ -11,12 +13,14 @@ class App extends Component {
       this.state = {
         signedIn: true,
         user: null,
-        username: "",
+        username: "", 
+        categories:[],
         email: "",
         password: "",
         events: [],
         users:"",
-        message:""
+        message:"",
+        clickedData: false
       };
   };
 
@@ -30,7 +34,10 @@ class App extends Component {
     fetchCategories = () => {
       fetch("http://localhost:3000/categories")
         .then(res => res.json())
-        .then(data => this.setState({ categories: data.map(ea => ea.name)}))
+        .then(data => {
+          const categories = data.map(ea => ea)
+          this.setState({ categories })
+        })
     };
 
     handleSignup = (event) => {
@@ -47,17 +54,6 @@ class App extends Component {
       })
         .then(res => res.json())  
         .then(data => this.setState({message: data}))
-   
-          // {this.setState
-          //   ({
-          //   signedIn: data > 1 ? true : false,
-          //     user: {
-          //       id: data.id,
-          //       username: data.username.charAt(0).toUpperCase() + data.username.slice(1),
-          //       email: data.email
-          //     } 
-          //   })
-          // }
          
     };
 
@@ -94,12 +90,31 @@ class App extends Component {
     };
   
 
+
+    handleClickData = () => {
+      this.setState({
+         clickedData: !this.state.clickedData,
+      });
+    };
+  
+
  render(){
-  return (
+  return ( 
     <div className="App">
-    
+      <div className="nav">
+        <Nav  
+        handleClickData={this.handleClickData}
+        />
+      </div>
+
       {this.state.signedIn ? 
      
+        this.state.clickedData ? 
+        
+        < DataPage /> 
+        
+        :
+
         <Cal 
           username={this.state.username}
           categories={this.state.categories}

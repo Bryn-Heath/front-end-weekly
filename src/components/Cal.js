@@ -32,16 +32,16 @@ import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+import CategoryIcon from '@material-ui/icons/Category';
 
 import LocationOn from '@material-ui/icons/LocationOn';
 import Notes from '@material-ui/icons/Notes';
 import Close from '@material-ui/icons/Close';
 import CalendarToday from '@material-ui/icons/CalendarToday';
-import Create from '@material-ui/icons/Create';
-import Typography from '@material-ui/core/Typography';
-import DataUsageIcon from '@material-ui/icons/DataUsage';
-import './cal_css.css';
+import Create from '@material-ui/icons/Create'; 
+ 
 
+import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -53,66 +53,21 @@ import FormHelperText from '@material-ui/core/FormHelperText';
   
 const appointments = [
   {
-    id: 0,
     title: 'Watercolor Landscape',
-    startDate: new Date(2018, 6, 23, 9, 30),
-    endDate: new Date(2018, 6, 23, 11, 30),
+    startDate: new Date(2020, 4, 16, 9, 30),
+    endDate: new Date(2020, 4, 16, 11, 30),
     ownerId: 1,
+    location: "testt",
+    category: "shopetetetetping"
   }, {
-    id: 1,
     title: 'Monthly Planning',
-    startDate: new Date(2018, 5, 28, 9, 30),
-    endDate: new Date(2018, 5, 28, 11, 30),
+    startDate: new Date(2020, 4, 17, 9, 30),
+    endDate: new Date(2020, 4, 17, 15, 30),
     ownerId: 1,
-  }, {
-    id: 2,
-    title: 'Recruiting students',
-    startDate: new Date(2018, 6, 9, 12, 0),
-    endDate: new Date(2018, 6, 9, 13, 0),
-    ownerId: 2,
-  }, {
-    id: 3,
-    title: 'Oil Painting',
-    startDate: new Date(2018, 6, 18, 14, 30),
-    endDate: new Date(2018, 6, 18, 15, 30),
-    ownerId: 2,
-  }, {
-    id: 4,
-    title: 'Open Day',
-    startDate: new Date(2018, 6, 20, 12, 0),
-    endDate: new Date(2018, 6, 20, 13, 35),
-    ownerId: 6,
-  }, {
-    id: 5,
-    title: 'Watercolor Landscape',
-    startDate: new Date(2020, 16, 5, 8, 0),
-    endDate: new Date(2020, 17, 5, 14, 0),
-    rRule: 'FREQ=WEEKLY;BYDAY=FR;UNTIL=20180816',
-    exDate: '20180713T100000Z,20180727T100000Z',
-    ownerId: 2,
-  }, {
-    id: 6,
-    title: 'Meeting of Instructors',
-    startDate: new Date(2018, 5, 28, 12, 0),
-    endDate: new Date(2018, 5, 28, 12, 30),
-    rRule: 'FREQ=WEEKLY;BYDAY=TH;UNTIL=20180727',
-    exDate: '20180705T090000Z,20180719T090000Z',
-    ownerId: 5,
-  }, {
-    id: 7,
-    title: 'Oil Painting for Beginners',
-    startDate: new Date(2018, 6, 3, 11, 0),
-    endDate: new Date(2018, 6, 3, 12, 0),
-    rRule: 'FREQ=WEEKLY;BYDAY=TU;UNTIL=20180801',
-    exDate: '20180710T080000Z,20180724T080000Z',
-    ownerId: 3,
-  }, {
-    id: 8,
-    title: 'Watercolor Workshop',
-    startDate: new Date(2018, 6, 9, 11, 0),
-    endDate: new Date(2018, 6, 9, 12, 0),
-    ownerId: 3,
-  },
+    notes: "hiihihi",
+    location: "london",
+    category: "shopping"
+  }
 ];
 
 // import { appointments } from '../../../demo-data/appointments';
@@ -162,7 +117,7 @@ const containerStyles = theme => ({
     width: '100%',
   },
 flexibleSpace: {
-    flex: 'none',
+    flex: 'flex',
   },
   flexContainer: {
     display: 'flex',
@@ -170,21 +125,21 @@ flexibleSpace: {
   },
 });
 
- 
+  
 
-class AppointmentFormContainerBasic extends Component {
+class AppointmentFormContainerBasic extends React.Component {
   //had props here
   constructor(props) {
     super(props);
     this.state = {
       appointmentChanges: {},
       category: null,
-      categories: "hi"
+      categories: this.props.categories
     };
 
-    console.log(props.categories)
-    console.log(this.props.categories)
-    console.log(this.props)
+    console.log(this)
+
+    console.log(this.props.username)
 
 
     
@@ -212,6 +167,8 @@ class AppointmentFormContainerBasic extends Component {
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
+
+  // edit form
   changeAppointment({ field, changes }) {
     const nextChanges = {
       ...this.getAppointmentChanges(),
@@ -249,7 +206,9 @@ class AppointmentFormContainerBasic extends Component {
     };
  
    
-
+    // renderCategories = () => { 
+    // return this.props.categories.map( c => <option>{c}</option>)
+    // }
   
 
   render() {
@@ -262,8 +221,8 @@ class AppointmentFormContainerBasic extends Component {
       cancelAppointment,
       target,
       onHide,
-      categories,
     } = this.props;
+
     const { appointmentChanges } = this.state;
 
     const displayAppointmentData = {
@@ -358,30 +317,32 @@ class AppointmentFormContainerBasic extends Component {
                 multiline
                 rows="6"
               />
-              
-           
             </div> 
-            
-            <FormControl required className={classes.formControl}>
-              <InputLabel htmlFor="category-native-required">Category</InputLabel>
-                <Select
-                  native
-                  value={this.state.category}
-                  onChange={event => this.handleChange(event)}
-                  name="category"
-                  inputProps={{
-                    id: 'Category',
-                  }}
-                >
-                <option aria-label="None" value="" />
-               {  console.log(this.props)}
+
+          
+            <CategoryIcon className={classes.icon} color="action" />
+            <FormControl className={classes.formControl}>
+              <Select
+                // {...selectEditorProps('category')}
+                value={"category"}
+                onChange={this.handleChange}
+                displayEmpty
+                className={classes.selectEmpty}
+                inputProps={{ 'aria-label': 'Without label' }}
+              >
+                <MenuItem value="" disabled>Categories</MenuItem>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}> sdasd</MenuItem>
               </Select>
-              <FormHelperText>Required</FormHelperText>
+              <FormHelperText>Categories</FormHelperText>
             </FormControl>
+            
+         
 
           </div>
  
 
+        
         
 
           <div className={classes.buttonGroup}>
@@ -426,14 +387,12 @@ const styles = theme => ({
   },
 });
 
-//miy code to get date
+//my code to get date
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear()+'-'+(today.getMonth())+'-'+today.getDate();
 
 /* eslint-disable-next-line react/no-multi-comp */
-class Cal extends Component {
-
-  
+class Cal extends Component { 
   constructor(props) {
     super(props);
     this.state = {
@@ -448,10 +407,10 @@ class Cal extends Component {
       startDayHour: 9,
       endDayHour: 19,
       isNewAppointment: false,
-
+      categories: this.props,
       category:""
     };
-
+ 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility = this.toggleEditingFormVisibility.bind(this);
@@ -459,6 +418,7 @@ class Cal extends Component {
      this.commitChanges = this.commitChanges.bind(this);
     this.onEditingAppointmentChange = this.onEditingAppointmentChange.bind(this);
     this.onAddedAppointmentChange = this.onAddedAppointmentChange.bind(this);
+    
     this.appointmentForm = connectProps(AppointmentFormContainer, () => {
       const {
         editingFormVisible,
@@ -469,6 +429,7 @@ class Cal extends Component {
         previousAppointment,
       } = this.state;
 
+    
       const currentAppointment = data
         .filter(appointment => editingAppointment && appointment.id === editingAppointment.id)[0]
         || addedAppointment;
@@ -481,7 +442,6 @@ class Cal extends Component {
         }
       };
 
- 
       return {
         visible: editingFormVisible,
         appointmentData: currentAppointment, 
@@ -577,7 +537,7 @@ class Cal extends Component {
       endDayHour
     } = this.state;
     const { classes  } = this.props;
-
+     
   
     return (
  
@@ -586,7 +546,7 @@ class Cal extends Component {
         <Scheduler
           data={data}
           // height={660}
-          locale={'en-UK'}
+          // locale={'en-UK'}
           firstDayOfWeek={1}
         >
           
@@ -619,15 +579,18 @@ class Cal extends Component {
               withStyles(styles, { name: 'Toolbar' })(({ classes, ...restProps }) => (
               <Toolbar.FlexibleSpace {...restProps} className={classes.flexibleSpace}>
                 <div className={classes.flexContainer}>
-                  <Typography variant="h5" style={{ marginLeft: '10px' }}>Data ...</Typography>
-                  <DataUsageIcon fontSize="large" htmlColor="#B240E0" className="rotate" />
-                  <Typography variant="h5" style={{ marginLeft: '10px' }}>Hey {this.props.username.charAt(0).toUpperCase() + this.props.username.slice(1)} welcome back!</Typography>
-                </div>
-              </Toolbar.FlexibleSpace>
-              ))
-             }
-          />
+                  {/* <Typography variant="h5" style={{ marginLeft: '10px' }}>Data ...</Typography> */}
+                 
+                 </div>
+
+
+                
+              </Toolbar.FlexibleSpace>     
           
+              )) 
+             }   
+          />
+         
           <AppointmentForm
             overlayComponent={this.appointmentForm}
             visible={editingFormVisible}
