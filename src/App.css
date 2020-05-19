@@ -38,10 +38,19 @@
 }
 
 
-
+/* navbar */
 .nav{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+   
+  letter-spacing: 1.8px;
+}
+
+.nav {
+  border-bottom: 1px solid rgb(211, 211, 211);
+  border-bottom-width: 2px  ;
+  border-bottom-style: solid  ;
 }

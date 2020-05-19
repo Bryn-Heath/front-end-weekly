@@ -8,6 +8,7 @@ class Nav extends Component {
 
     render(){
         return(
+            
             <DataUsageIcon 
             fontSize="large" 
             htmlColor="#B240E0" 

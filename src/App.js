@@ -4,6 +4,7 @@ import Cal from './components/Cal'
 import Login from './Login/Login'
 import DataPage from './components/DataPage'
 import Nav from './components/Nav'
+// import { login, signup } from 'API'
 
  
 class App extends Component {
@@ -11,7 +12,7 @@ class App extends Component {
   constructor() {
       super();
       this.state = {
-        signedIn: true,
+        signedIn: false,
         user: null,
         username: "", 
         categories:[],
@@ -27,6 +28,7 @@ class App extends Component {
     
     componentDidMount() {
       this.fetchCategories();
+     
     }
 
  
@@ -60,25 +62,41 @@ class App extends Component {
 
     handleLogin = (event) => {
       event.preventDefault()
-      fetch("http://localhost:3000/owners")
-        .then(res => res.json())
-        .then(data => {
-          const user = data.filter(
-            u => u.username == this.state.username && u.password == this.state.password
-          );
-          console.log(data)
-          if (user.length == 1) {
-            this.setState({
-              signedIn: true,
-              user: {
-                id: user[0].id,
-                username:
-                  user[0].username.charAt(0).toUpperCase() + user[0].username.slice(1),
-              },
-              users: data.filter(u => u.username)
-            });
-          }
-        });
+      // fetch("http://localhost:3000/owners")
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     const user = data.filter(
+      //       u => u.username == this.state.username && u.password == this.state.password
+      //     );
+
+      //     console.log(data)
+      //     if (user.length == 1) {
+      //       this.setState({
+      //         signedIn: true,
+      //         user: {
+      //           id: user[0].id,
+      //           username:
+      //             user[0].username.charAt(0).toUpperCase() + user[0].username.slice(1),
+      //         },
+      //         users: data.filter(u => u.username)
+      //       });
+      //     }
+      //   });
+      fetch('http://localhost:3000/login_and_init', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        body: JSON.stringify({username: this.state.username})
+      })
+      .then( r => r.json() )
+      .then( userData => {
+        this.setState({ 
+          user: userData,
+          signedIn: true, })
+      })
     };
  
 
@@ -101,17 +119,25 @@ class App extends Component {
  render(){
   return ( 
     <div className="App">
+      {this.state.signedIn ?  
       <div className="nav">
-        <Nav  
-        handleClickData={this.handleClickData}
-        />
-      </div>
-
+        WEEKLY 
+          <Nav  
+          handleClickData={this.handleClickData}
+          /> 
+        METRICS
+      </div> 
+      : null
+      }
+      
+ {/* <hr/>  */}
       {this.state.signedIn ? 
      
         this.state.clickedData ? 
         
-        < DataPage /> 
+        <DataPage 
+        userData={this.state.user.appointments}
+        /> 
         
         :
 
