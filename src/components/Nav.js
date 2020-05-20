@@ -11,7 +11,7 @@ class Nav extends Component {
             
             <DataUsageIcon 
             fontSize="large" 
-            htmlColor="#B240E0" 
+            htmlColor="#f50057" 
             className="rotate"
             onClick={() => this.props.handleClickData()} 
             ></DataUsageIcon>
