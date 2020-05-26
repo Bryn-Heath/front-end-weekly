@@ -1,0 +1,31 @@
+ 
+
+  .para {
+  font: Roboto;
+  font-size: 18px;
+   
+  font-weight: 410; 
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+    border-bottom: 1px solid rgb(211, 211, 211);
+    border-bottom-width: 2px  ;
+    border-bottom-style: solid  ;
+  }
+/* 
+.rotate:hover {
+    animation: rotation 3s infinite linear;    
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  } */
+
+   

@@ -61,33 +61,11 @@ class App extends Component {
 
 
     handleLogin = (event) => {
-      event.preventDefault()
-      // fetch("http://localhost:3000/owners")
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     console.log(data)
-      //     const user = data.filter(
-      //       u => u.username == this.state.username && u.password == this.state.password
-      //     );
-
-      //     console.log(data)
-      //     if (user.length == 1) {
-      //       this.setState({
-      //         signedIn: true,
-      //         user: {
-      //           id: user[0].id,
-      //           username:
-      //             user[0].username.charAt(0).toUpperCase() + user[0].username.slice(1),
-      //         },
-      //         users: data.filter(u => u.username)
-      //       });
-      //     }
-      //   });
+      event.preventDefault() 
       fetch('http://localhost:3000/login_and_init', {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({username: this.state.username})
       })
@@ -99,7 +77,6 @@ class App extends Component {
       })
     };
  
-
 //used for input capture on input forms
     handleChange = (event) => {
       this.setState({
@@ -125,7 +102,7 @@ class App extends Component {
           <Nav  
           handleClickData={this.handleClickData}
           /> 
-        METRICS
+        STATS
       </div> 
       : null
       }
@@ -141,7 +118,8 @@ class App extends Component {
         
         :
 
-        <Cal 
+        <Cal
+          userData={this.state.user.appointments}
           username={this.state.username}
           categories={this.state.categories}
         />  
