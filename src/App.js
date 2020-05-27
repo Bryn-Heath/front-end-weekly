@@ -15,7 +15,7 @@ class App extends Component {
         signedIn: false,
         user: null,
         username: "", 
-        categories:[],
+        categories: null,
         email: "",
         password: "",
         events: [],
@@ -27,20 +27,17 @@ class App extends Component {
 
     
     componentDidMount() {
-      this.fetchCategories();
-     
+
+      
+      fetch("http://localhost:3000/categories")
+        .then(res => res.json())
+        .then(data => this.setState({ categories : data  })
+        )
+   
     }
 
  
-
-    fetchCategories = () => {
-      fetch("http://localhost:3000/categories")
-        .then(res => res.json())
-        .then(data => {
-          const categories = data.map(ea => ea)
-          this.setState({ categories })
-        })
-    };
+   
 
     handleSignup = (event) => {
       event.preventDefault()
@@ -122,6 +119,7 @@ class App extends Component {
           userData={this.state.user.appointments}
           username={this.state.username}
           categories={this.state.categories}
+          user={this.state.user}
         />  
       
         :
