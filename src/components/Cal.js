@@ -22,14 +22,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-
+ 
 
 import './cal_css.css';
 
@@ -156,22 +149,18 @@ const Content = withStyles(style, { name: 'Content' })(({
   
  
  
-export default class Demo extends React.PureComponent {
+export default class Cal extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.userData,
+      flag: true
     };
-    this.commitChanges = this.commitChanges.bind(this);
+     
   }
- 
-    // commitChanges = ({ added,deleted }) => {
-     
-    //   if (added) this.addEvent(added) 
-     
-    //   else  this.deleteEvent(deleted)
-    // }
 
+   
+ 
 
   addEvent = (newEvent) => {
     fetch("http://localhost:3000/appointments", {
@@ -186,9 +175,9 @@ export default class Demo extends React.PureComponent {
       }),
     })
       .then(res => res.json())
-      // .then(createdEvent => {
-      //   this.setState({ data: [...this.state.data, newEvent] })
-      // })
+      .then(createdEvent => {
+        this.setState({ data: [...this.state.data, createdEvent] })
+      })
   }
 
   // // changeEvent = (changedEvent) => {
@@ -210,31 +199,39 @@ export default class Demo extends React.PureComponent {
   // // }
 
   deleteEvent = (deletedEvent) => {
-    console.log( deletedEvent )
+      const data = this.state.data
+      //filters the selected data
+      const filter = data.filter(item => item.id !== deletedEvent)
+      this.setState({
+        data: [...filter]
+      })
+
       fetch("http://localhost:3000/appointments/"+deletedEvent,{
         method: "DELETE",
       })
+       
+      .then(deletedEvent => {
+      console.log(deletedEvent)
+      } )
+       
     }
   
-   
-  commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
-      if (added) {
-        const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-         this.addEvent(added);
-      }
+ //add edit delete - func
+  commitChanges = ({ added, changed, deleted }) => {
+    // this.setState((state) => {
+    //   let { data } = state;
+      if (added) return this.addEvent(added) ;
+       
       if (changed) {
-        data = data.map(appointment => (
-          changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+        // data = data.map(appointment => (
+        //   changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
       }
-      if (deleted !== undefined) {
-        data = data.filter(appointment => appointment.id !== deleted);
-        this.deleteEvent(deleted);
-      }
-      return { data };
-    });
+      if (deleted !== undefined) return this.deleteEvent(deleted);
+        // data = data.filter(appointment => appointment.id !== deleted);
+        
+       
+    //   return { data };
+    // });
   }
 
   render() {
@@ -265,7 +262,7 @@ export default class Demo extends React.PureComponent {
           <ConfirmationDialog />
           <Appointments />
           <AppointmentTooltip
-            
+           contentComponent={Content}
             showCloseButton
             showOpenButton
             showDeleteButton
