@@ -6,7 +6,7 @@ import DataPage from './components/DataPage'
 import Nav from './components/Nav'
 // import { login, signup } from 'API'
 
- 
+ const API = "https://weekly-bryn-heath.herokuapp.com/"
 class App extends Component {
     
   constructor() {
@@ -29,7 +29,7 @@ class App extends Component {
     componentDidMount() {
 
       
-      fetch("http://localhost:3000/categories")
+      fetch(API+"categories")
         .then(res => res.json())
         .then(data => this.setState({ categories : data  })
         )
@@ -41,7 +41,7 @@ class App extends Component {
 
     handleSignup = (event) => {
       event.preventDefault()
-      fetch("http://localhost:3000/owners", {
+      fetch(API+"owners", {
         method: "POST",
         headers: {"Content-Type": "application/json", 
                   "Accept": "application/json" },
@@ -59,7 +59,7 @@ class App extends Component {
 
     handleLogin = (event) => {
       event.preventDefault() 
-      fetch('http://localhost:3000/login_and_init', {
+      fetch(API+"login_and_init', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
