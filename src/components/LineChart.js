@@ -6,7 +6,7 @@ import {
   Title,
   ArgumentAxis,
   ValueAxis,
-  Tooltip
+  Tooltip, 
 } from '@devexpress/dx-react-chart-material-ui';
 
 import { Animation } from '@devexpress/dx-react-chart';
@@ -41,6 +41,10 @@ let part2 = {}
 let newObj = {}
 let finishArr = []
 
+
+ 
+
+
 export default class LineChart extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -73,19 +77,18 @@ export default class LineChart extends React.PureComponent {
        });   
         return finishArr
     }
-     
+    componentDidMount(){
 
-   componentDidMount(){
+        part1 = this.funcA(this.props.userData) 
+        part2 = this.getWordCntRd(part1)
 
-      part1 = this.funcA(this.props.userData) 
-      part2 = this.getWordCntRd(part1)
-
-      this.setState({
-        data : this.finishObj(),
-        most: Object.keys(part2).sort(function(a,b){return part2[a]-part2[b]}).slice(-1)[0]
-      })
-   }
+        this.setState({
+          data : this.finishObj(),
+          most: Object.keys(part2).sort(function(a,b){return part2[a]-part2[b]}).slice(-1)[0]
+        })
+    }
   
+   
   
 
     render() {
@@ -103,7 +106,7 @@ export default class LineChart extends React.PureComponent {
 
             <ArgumentAxis />
             <ValueAxis/>
-
+             
             {/* <EventTracker/>
           <Tooltip/> */}
 
@@ -111,7 +114,7 @@ export default class LineChart extends React.PureComponent {
               valueField="value"
               argumentField="location"
             />
-            <Title text={`You most popular location is ${this.state.most}`} />
+            <Title text={`Your most popular location is ${this.state.most}`} />
             <Animation />
           </Chart>
         </Paper>
