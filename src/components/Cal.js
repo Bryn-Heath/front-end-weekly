@@ -163,7 +163,7 @@ export default class Cal extends React.PureComponent {
  
 
   addEvent = (newEvent) => {
-    fetch("http://localhost:3000/appointments", {
+    fetch("https://weekly-bryn-heath.herokuapp.com/appointments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", 
@@ -206,7 +206,7 @@ export default class Cal extends React.PureComponent {
         data: [...filter]
       })
 
-      fetch("http://localhost:3000/appointments/"+deletedEvent,{
+      fetch("https://weekly-bryn-heath.herokuapp.com/appointments"+deletedEvent,{
         method: "DELETE",
       })
        
